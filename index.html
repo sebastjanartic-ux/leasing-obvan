@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leasingantrag – Mobiler HD-Übertragungswagen | PRIME TIME Consulting GmbH</title>
+<style>
+  :root {
+    --dark: #0D1B2A;
+    --navy: #1A3A5C;
+    --amber: #E8A020;
+    --amber-dark: #B07818;
+    --white: #FFFFFF;
+    --light-bg: #F4F6F8;
+    --text: #1C2833;
+    --muted: #6B7C8D;
+    --line: #D5DBDB;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Calibri, Arial, sans-serif;
+    background: var(--light-bg);
+    color: var(--text);
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--dark);
+    border-bottom: 3px solid var(--amber);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2rem; height: 56px;
+  }
+  nav .brand { color: var(--amber); font-weight: 700; font-size: 0.85rem; letter-spacing: 3px; }
+  nav ul { list-style: none; display: flex; gap: 1.5rem; }
+  nav ul a { color: #A8C4D8; text-decoration: none; font-size: 0.82rem; transition: color .2s; }
+  nav ul a:hover { color: var(--amber); }
+
+  /* ── SECTIONS ── */
+  section { padding: 80px 0 60px; scroll-margin-top: 56px; }
+  section:nth-child(even) { background: var(--white); }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+  /* ── HERO ── */
+  #hero {
+    background: var(--dark);
+    min-height: 100vh; display: flex; align-items: center;
+    padding-top: 56px;
+    position: relative; overflow: hidden;
+  }
+  #hero::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0; width: 6px;
+    background: var(--amber);
+  }
+  .hero-grid { display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: center; }
+  .hero-label { color: var(--amber); font-size: 0.8rem; font-weight: 700; letter-spacing: 4px; margin-bottom: 1rem; }
+  .hero-title { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700; color: var(--white); line-height: 1.15; margin-bottom: 0.75rem; }
+  .hero-sub { font-size: 1.2rem; color: #A8C4D8; margin-bottom: 2rem; }
+  .hero-meta { display: flex; flex-direction: column; gap: 0.4rem; }
+  .hero-meta span { font-size: 0.95rem; color: #A8C4D8; }
+  .hero-meta strong { color: var(--white); }
+  .badge {
+    background: var(--navy);
+    border: 1.5px solid var(--amber);
+    border-radius: 8px;
+    padding: 1.5rem 2rem; text-align: center; min-width: 170px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+  .badge .badge-label { font-size: 0.7rem; font-weight: 700; color: var(--amber); letter-spacing: 3px; }
+  .badge .badge-price { font-size: 2rem; font-weight: 700; color: var(--white); margin: 0.3rem 0; }
+  .badge .badge-sub { font-size: 0.8rem; color: #A8C4D8; }
+  .badge .badge-gross { font-size: 0.85rem; color: var(--amber); margin-top: 0.3rem; font-weight: 600; }
+
+  /* ── SECTION HEADER ── */
+  .section-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 4px; color: var(--amber); margin-bottom: 0.5rem; }
+  .section-title { font-size: 1.8rem; font-weight: 700; color: var(--dark); margin-bottom: 0.5rem; }
+  .section-title.light { color: var(--white); }
+  .section-sub { color: var(--muted); margin-bottom: 2.5rem; }
+  .amber-line { width: 60px; height: 4px; background: var(--amber); margin: 0.75rem 0 2rem; }
+
+  /* ── DARK SECTION ── */
+  section.dark { background: var(--dark); }
+  section.dark .section-title { color: var(--white); }
+  section.dark .section-sub { color: #A8C4D8; }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+  .card.dark-card {
+    background: #132233;
+    border-color: #1E3A5C;
+    color: var(--white);
+  }
+
+  /* ── VEHICLE SECTION ── */
+  .vehicle-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
+  .vehicle-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .vehicle-photos img { width: 100%; border-radius: 6px; object-fit: cover; }
+  .vehicle-photos .main-photo { grid-column: 1 / -1; height: 280px; }
+  .vehicle-photos .sub-photo { height: 160px; }
+  .specs-table { width: 100%; border-collapse: collapse; }
+  .specs-table tr:nth-child(even) td { background: #F7F9FB; }
+  .specs-table td { padding: 0.55rem 0.75rem; font-size: 0.9rem; border-bottom: 1px solid var(--line); }
+  .specs-table td:first-child { font-weight: 600; color: var(--navy); width: 45%; }
+
+  /* ── SYSTEM CARDS (6-grid) ── */
+  .system-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  .sys-card {
+    background: #132233;
+    border: 1px solid #1E3A5C;
+    border-top: 4px solid var(--amber);
+    border-radius: 6px;
+    padding: 1.2rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  }
+  .sys-card .icon { font-size: 1.8rem; margin-bottom: 0.6rem; }
+  .sys-card h3 { font-size: 0.95rem; font-weight: 700; color: var(--white); margin-bottom: 0.4rem; }
+  .sys-card p { font-size: 0.82rem; color: #A8C4D8; line-height: 1.5; }
+
+  /* ── COMPONENTS ── */
+  .comp-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; align-items: start; }
+  .comp-list { display: flex; flex-direction: column; gap: 1rem; }
+  .comp-item { display: flex; gap: 0.75rem; align-items: flex-start; }
+  .comp-bar { width: 5px; min-height: 40px; background: var(--amber); border-radius: 2px; flex-shrink: 0; margin-top: 3px; }
+  .comp-item h4 { font-size: 0.95rem; font-weight: 700; color: var(--dark); margin-bottom: 0.2rem; }
+  .comp-item p { font-size: 0.82rem; color: var(--muted); }
+  .comp-photos { display: grid; grid-template-columns: 1fr; gap: 0.75rem; }
+  .comp-photos img { width: 100%; border-radius: 6px; object-fit: cover; height: 160px; }
+
+  /* ── VIDEO GRID ── */
+  .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem; }
+  .video-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  .video-wrap {
+    position: relative; border-radius: 6px; overflow: hidden;
+    border: 1px solid var(--amber);
+    background: #0A1520;
+  }
+  .video-wrap video {
+    width: 100%; display: block;
+    max-height: 280px; object-fit: cover;
+  }
+  .video-grid-3 .video-wrap video { max-height: 180px; }
+
+  /* ── USE CASES ── */
+  .use-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .use-card {
+    background: #132233;
+    border: 1px solid #1E3A5C;
+    border-left: 6px solid var(--amber);
+    border-radius: 6px;
+    display: flex; gap: 1rem; align-items: center;
+    padding: 1rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  }
+  .use-card img { width: 110px; height: 100px; object-fit: cover; border-radius: 4px; flex-shrink: 0; }
+  .use-card h3 { font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: 0.35rem; }
+  .use-card p { font-size: 0.82rem; color: #A8C4D8; line-height: 1.5; }
+
+  /* ── PRICING ── */
+  .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .price-table { width: 100%; border-collapse: collapse; }
+  .price-table tr td { padding: 0.7rem 0.75rem; border-bottom: 1px solid var(--line); font-size: 0.95rem; }
+  .price-table tr td:last-child { text-align: right; font-weight: 600; }
+  .price-table tr.total { background: var(--dark); }
+  .price-table tr.total td { color: var(--white); font-size: 1.05rem; font-weight: 700; border: none; }
+  .price-table tr.total td:first-child { color: var(--amber); }
+  .price-table tr.total td:last-child { color: var(--amber); font-size: 1.2rem; }
+  .leasing-points { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem; }
+  .lp { display: flex; gap: 0.75rem; align-items: center; }
+  .lp-bar { width: 5px; height: 28px; background: var(--amber); border-radius: 2px; flex-shrink: 0; }
+  .lp span { font-size: 0.95rem; color: #D0DDE8; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark);
+    border-top: 3px solid var(--amber);
+    padding: 2.5rem 2rem;
+    text-align: center;
+  }
+  footer h2 { font-size: 1.8rem; font-weight: 700; color: var(--white); margin-bottom: 0.5rem; }
+  footer .f-sub { color: #A8C4D8; margin-bottom: 1.5rem; }
+  .contact-badge {
+    display: inline-block;
+    background: var(--amber);
+    border-radius: 8px;
+    padding: 1.2rem 2.5rem;
+    color: var(--dark);
+    font-weight: 700; font-size: 1rem;
+  }
+  .contact-badge p { font-size: 0.85rem; font-weight: 400; margin-top: 0.25rem; }
+  footer .copy { color: #4A6A8A; font-size: 0.78rem; margin-top: 2rem; }
+
+  @media (max-width: 768px) {
+    .hero-grid, .vehicle-grid, .comp-grid, .price-grid, .use-grid, .system-grid { grid-template-columns: 1fr; }
+    .video-grid, .video-grid-3 { grid-template-columns: 1fr; }
+    nav ul { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="brand">PRIME TIME CONSULTING</span>
+  <ul>
+    <li><a href="#fahrzeug">Fahrzeug</a></li>
+    <li><a href="#system">Technik</a></li>
+    <li><a href="#videos">Videos</a></li>
+    <li><a href="#einsatz">Einsatz</a></li>
+    <li><a href="#leasing">Leasing</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-label">LEASINGANTRAG · MÄRZ 2026</div>
+        <h1 class="hero-title">Mobiler HD-<br>Übertragungswagen</h1>
+        <p class="hero-sub">Schlüsselfertige Broadcast-Produktionseinheit</p>
+        <div class="hero-meta">
+          <span><strong>Käufer / Antragsteller:</strong> PRIME TIME Consulting GmbH</span>
+          <span><strong>Verkäufer:</strong> ALE EXCLUSIVE UG, München</span>
+          <span><strong>Datum:</strong> 12. März 2026</span>
+        </div>
+      </div>
+      <div class="badge">
+        <div class="badge-label">INVESTITION</div>
+        <div class="badge-price">68.900 €</div>
+        <div class="badge-sub">netto</div>
+        <div class="badge-gross">81.991 € brutto</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAHRZEUG -->
+<section id="fahrzeug">
+  <div class="container">
+    <div class="section-label">DAS FAHRZEUG</div>
+    <h2 class="section-title">VW Crafter 35 – Trägervehikel</h2>
+    <div class="amber-line"></div>
+    <div class="vehicle-grid">
+      <div class="vehicle-photos">
+        <img class="main-photo" src="images/OB 18.jpg" alt="VW Crafter 35 Seitenansicht">
+        <img class="sub-photo" src="images/OB 19.jpg" alt="VW Crafter 35 Vorne">
+        <img class="sub-photo" src="images/OB 21.jpg" alt="VW Crafter 35 Hinten">
+      </div>
+      <div class="card">
+        <table class="specs-table">
+          <tr><td>Modell</td><td>Crafter 35 2.5 TDI</td></tr>
+          <tr><td>Getriebe</td><td>Schaltgetriebe</td></tr>
+          <tr><td>Erstzulassung</td><td>03 / 2010</td></tr>
+          <tr><td>Kilometerstand</td><td>67.825 km</td></tr>
+          <tr><td>Kraftstoff</td><td>Diesel</td></tr>
+          <tr><td>Hubraum / Leistung</td><td>2.461 cm³ / 100 kW (136 PS)</td></tr>
+          <tr><td>Farbe</td><td>Weiß Metallic</td></tr>
+          <tr><td>FIN</td><td>WV1ZZZ2EA6019940</td></tr>
+          <tr><td>Anbieter</td><td>ALE EXCLUSIVE UG, München</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SYSTEM -->
+<section id="system" class="dark">
+  <div class="container">
+    <div class="section-label">BROADCAST-SYSTEMÜBERSICHT</div>
+    <h2 class="section-title">Der Ü-Wagen als Turn-Key-Produktionseinheit</h2>
+    <div class="amber-line"></div>
+    <div class="system-grid">
+      <div class="sys-card"><div class="icon">▶</div><h3>Mehrkamera-HD-Produktion</h3><p>Bis zu 6 Kamerazüge mit professionellen Broadcast-Objektiven</p></div>
+      <div class="sys-card"><div class="icon">⏺</div><h3>Video-Regie & Recording</h3><p>Bildmischer, Blackmagic VideoHub 40×40, HyperDeck-Recording</p></div>
+      <div class="sys-card"><div class="icon">↩</div><h3>Zeitlupe & Replay</h3><p>NewTek 3Play 425 HD Mehrkanal-Replay-System</p></div>
+      <div class="sys-card"><div class="icon">♪</div><h3>Audio & Intercom</h3><p>Yamaha Digitalmischpult, Clear-Com Intercom</p></div>
+      <div class="sys-card"><div class="icon">◉</div><h3>Monitoring</h3><p>Broadcast-Monitore LG & Marshall mit Multiview-Systemen</p></div>
+      <div class="sys-card"><div class="icon">⚙</div><h3>Infrastruktur</h3><p>SMPTE-Fibre, SDI-Verkabelung, USV, Klimatisierung & Racks</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- HAUPTKOMPONENTEN -->
+<section id="komponenten">
+  <div class="container">
+    <div class="section-label">HAUPTKOMPONENTEN</div>
+    <h2 class="section-title">Technische Ausstattung im Detail</h2>
+    <div class="amber-line"></div>
+    <div class="comp-grid">
+      <div class="comp-list">
+        <div class="comp-item"><div class="comp-bar"></div><div><h4>Kameras & Optiken</h4><p>Panasonic AG-HPX Serie, Fujinon/Canon Broadcast-Objektive, Kamera-Controller</p></div></div>
+        <div class="comp-item"><div class="comp-bar"></div><div><h4>Videoregie & Routing</h4><p>Echolab Bildmischer, Blackmagic VideoHub 40×40, Multiview, Signalüberwachung</p></div></div>
+        <div class="comp-item"><div class="comp-bar"></div><div><h4>Recording</h4><p>HyperDeck Studio, PC-basierte Lösung mit DeckLink-Karte</p></div></div>
+        <div class="comp-item"><div class="comp-bar"></div><div><h4>Replay-System</h4><p>NewTek 3Play 425 HD – Mehrkanal-Zeitlupen-System</p></div></div>
+        <div class="comp-item"><div class="comp-bar"></div><div><h4>Audio & Intercom</h4><p>Yamaha Digitalmischpult, Clear-Com Intercom, Glensound, Sennheiser, RØDE</p></div></div>
+        <div class="comp-item"><div class="comp-bar"></div><div><h4>Monitoring</h4><p>LG & Marshall Broadcast-Monitore, professionelle Multiview-Systeme</p></div></div>
+      </div>
+      <div class="comp-photos">
+        <img src="images/OB 15.jpg" alt="Technik-Rack im Fahrzeug">
+        <img src="images/OB 16.jpg" alt="Patchsystem und SDI-Verkabelung">
+        <img src="images/OB 17.jpg" alt="Interne Verkabelung">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEOS -->
+<section id="videos" class="dark">
+  <div class="container">
+    <div class="section-label">DAS FAHRZEUG IN AKTION</div>
+    <h2 class="section-title">Live-Aufnahmen aus dem Übertragungswagen</h2>
+    <div class="amber-line"></div>
+    <div class="video-grid">
+      <div class="video-wrap"><video controls preload="metadata"><source src="images/Video OB 1.mp4" type="video/mp4"></video></div>
+      <div class="video-wrap"><video controls preload="metadata"><source src="images/Video OB 2.mp4" type="video/mp4"></video></div>
+    </div>
+    <div class="video-grid-3">
+      <div class="video-wrap"><video controls preload="metadata"><source src="images/Video OB 3.mp4" type="video/mp4"></video></div>
+      <div class="video-wrap"><video controls preload="metadata"><source src="images/Video OB 4.mp4" type="video/mp4"></video></div>
+      <div class="video-wrap"><video controls preload="metadata"><source src="images/Video OB 5.mp4" type="video/mp4"></video></div>
+    </div>
+    <div class="video-grid" style="margin-top:1.25rem">
+      <div class="video-wrap"><video controls preload="metadata"><source src="images/Video OB 6.mp4" type="video/mp4"></video></div>
+      <div class="video-wrap"><video controls preload="metadata"><source src="images/Video OB 7.mp4" type="video/mp4"></video></div>
+    </div>
+  </div>
+</section>
+
+<!-- EINSATZBEREICHE -->
+<section id="einsatz">
+  <div class="container">
+    <div class="section-label">EINSATZBEREICHE</div>
+    <h2 class="section-title">Professioneller Broadcast-Einsatz</h2>
+    <div class="amber-line"></div>
+    <div class="use-grid">
+      <div class="use-card">
+        <img src="images/OB 14.jpg" alt="Sportübertragungen">
+        <div><h3>Sportübertragungen</h3><p>Live-Coverage von Fußball, Tennis, Motorsport und weiteren Sportevents in HD-Qualität</p></div>
+      </div>
+      <div class="use-card">
+        <img src="images/OB 10.jpg" alt="Konzerte & Events">
+        <div><h3>Kulturevents & Konzerte</h3><p>Mehrkamera-Produktion für Konzerte, Opern, Theater und Kulturveranstaltungen</p></div>
+      </div>
+      <div class="use-card">
+        <img src="images/OB 11.jpg" alt="Corporate Events">
+        <div><h3>Corporate Events</h3><p>Unternehmensveranstaltungen, Hauptversammlungen, Kongresse und Messen</p></div>
+      </div>
+      <div class="use-card">
+        <img src="images/OB 12.jpg" alt="TV-Produktionen">
+        <div><h3>TV-Produktionen</h3><p>Auftragsproduktionen für Fernsehsender, Streaming-Plattformen und Medienhäuser</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEASING -->
+<section id="leasing" class="dark">
+  <div class="container">
+    <div class="section-label">INVESTITION & LEASINGANTRAG</div>
+    <h2 class="section-title">Finanzierungsübersicht</h2>
+    <div class="amber-line"></div>
+    <div class="price-grid">
+      <div>
+        <div class="card">
+          <h3 style="margin-bottom:1rem;color:var(--dark);font-size:1rem;">Angebotspreise (ALE Exclusive UG)</h3>
+          <table class="price-table">
+            <tr><td>Kaufpreis netto</td><td>68.900,00 €</td></tr>
+            <tr><td>zzgl. 19 % MwSt.</td><td>13.091,00 €</td></tr>
+            <tr class="total"><td>Gesamtbetrag brutto</td><td>81.991,00 €</td></tr>
+          </table>
+          <p style="font-size:0.82rem;color:var(--muted);margin-top:1rem;">Anbieter: ALE EXCLUSIVE UG, München · 12.03.2026</p>
+        </div>
+      </div>
+      <div class="card dark-card">
+        <h3 style="margin-bottom:1rem;color:var(--white);font-size:1rem;">Unser Leasingantrag</h3>
+        <div class="leasing-points">
+          <div class="lp"><div class="lp-bar"></div><span>Leasingbetrag: ca. 81.991 € (brutto)</span></div>
+          <div class="lp"><div class="lp-bar"></div><span>Nutzungsart: Gewerblich / Medienproduktion</span></div>
+          <div class="lp"><div class="lp-bar"></div><span>Leasingdauer: nach Vereinbarung</span></div>
+          <div class="lp"><div class="lp-bar"></div><span>Anzahlung: nach Vereinbarung</span></div>
+          <div class="lp"><div class="lp-bar"></div><span>Fahrzeug dient als Sicherheit</span></div>
+          <div class="lp"><div class="lp-bar"></div><span>Verkäufer: ALE EXCLUSIVE UG, München</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <h2>Vielen Dank für Ihr Vertrauen</h2>
+  <p class="f-sub">Wir stehen Ihnen für Rückfragen jederzeit gerne zur Verfügung.</p>
+  <div class="contact-badge">
+    PRIME TIME Consulting GmbH – Käufer &amp; Antragsteller
+    <p>Heike Artic · Hechingen, Deutschland</p>
+  </div>
+  <p style="color:#A8C4D8;font-size:0.85rem;margin-top:1rem;">Fahrzeug erworben von: <strong style="color:var(--amber)">ALE EXCLUSIVE UG</strong> · Agnes Bernauer Straße 151 · 80687 München</p>
+  <p class="copy">Leasingantrag 2026 · Mobiler HD-Übertragungswagen · VW Crafter 35 · Investitionsvolumen 81.991 €</p>
+</footer>
+
+</body>
+</html>
